@@ -1,0 +1,18 @@
+server:
+  port: 80
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 120.46.149.32:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启配置中心
+          lower-case-service-id: true
+      routes:
+        - id: diners
+          uri: lb://diners
+          predicates:
+            - Path=/hello/**

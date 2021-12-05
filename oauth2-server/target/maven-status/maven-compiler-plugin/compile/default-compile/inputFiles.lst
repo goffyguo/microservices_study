@@ -1,0 +1,9 @@
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/config/ClientOAuth2DataConfiguration.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/controller/OAuthController.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/config/SecurityConfiguration.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/mapper/DinersMapper.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/config/ResourceServerConfig.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/config/AuthorizationServerConfiguration.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/service/UserService.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/config/MyAuthenticationEntryPoint.java
+/Users/guogoffy/gitProject/microservices_study/oauth2-server/src/main/java/com/goffy/aouth/Oauth2ServerApplication.java

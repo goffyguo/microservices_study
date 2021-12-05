@@ -1,0 +1,10 @@
+com/goffy/commons/exception/ParameterException.class
+com/goffy/commons/utils/ResultInfoUtil.class
+com/goffy/commons/model/vo/SignInDinerInfo.class
+com/goffy/commons/model/domain/SignInIdentity.class
+com/goffy/commons/model/domain/ResultInfo.class
+com/goffy/commons/model/base/BaseModel.class
+com/goffy/commons/ApiConstant.class
+com/goffy/commons/utils/AssertUtil.class
+com/goffy/commons/model/dto/DinersDTO.class
+com/goffy/commons/model/pojo/Diners.class

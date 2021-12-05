@@ -1,0 +1,8 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: diners
+  cloud:
+    nacos:
+      server-addr: 120.46.149.32:8848
