@@ -15,4 +15,29 @@ spring:
         - id: diners
           uri: lb://diners
           predicates:
-            - Path=/hello/**
+            - Path=/diners/**
+          filters:
+            - StripPrefix=1
+        - id: oauth2-server
+          uri: lb://oauth2-server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
+
+
+secure:
+  ignore:
+    urls: # 配置白名单路径
+      - /actuator/**
+      - /auth/oauth/**
+      - /diners/signin
+      - /diners/send
+      - /diners/checkPhone
+      - /diners/register
+
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
