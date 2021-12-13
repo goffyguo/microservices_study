@@ -16,3 +16,4 @@ target/
 diners/target
 gateway/target
 commons/target
+oauth2-server/target
