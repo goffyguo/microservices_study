@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goffy.diners.mapper.DinersMapper">
+  <resultMap id="BaseResultMap" type="com.goffy.diners.pojo.Diners">
+    <!--@mbg.generated-->
+    <!--@Table t_diners-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="roles" jdbcType="VARCHAR" property="roles" />
+    <result column="is_valid" jdbcType="BOOLEAN" property="isValid" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, username, nickname, phone, email, `password`, avatar_url, roles, is_valid, create_date, 
+    update_date
+  </sql>
+  <select id="selectByUsername" resultType="com.goffy.commons.model.pojo.Diners" parameterType="string">
+    select id, username, phone, email, is_valid from t_diners where username = #{username}
+  </select>
+
+  <insert id="save" parameterType="com.goffy.commons.model.dto.DinersDTO">
+    insert into t_diners (username, password, phone, roles, is_valid, create_date, update_date)
+    values (#{username}, #{password}, #{phone}, "ROLE_USER", 1, now(), now())
+  </insert>
+
+  <select id="selectByPhone" resultType="com.goffy.commons.model.pojo.Diners" parameterType="string">
+    select id, username, phone, email, is_valid from t_diners where phone = #{phone}
+  </select>
+</mapper>

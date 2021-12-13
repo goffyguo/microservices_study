@@ -19,6 +19,11 @@ spring:
     database: 1
     password: guofei??
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mappers/*Mapper.xml
+
 # Oauth2 客户端信息
 oauth2:
   client:

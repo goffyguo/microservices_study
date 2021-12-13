@@ -1,12 +1,16 @@
 package com.goffy.diners.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.model.domain.ResultInfo;
+import com.goffy.commons.model.dto.DinersDTO;
+import com.goffy.commons.model.pojo.Diners;
 import com.goffy.commons.utils.AssertUtil;
 import com.goffy.commons.utils.ResultInfoUtil;
 import com.goffy.diners.config.OAuth2ClientConfiguration;
 import com.goffy.diners.domain.OAuthDinerInfo;
+import com.goffy.diners.mapper.DinersMapper;
 import com.goffy.diners.vo.LoginDinerInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -34,6 +38,11 @@ public class DinersService {
     private String oauthServerName;
     @Resource
     private OAuth2ClientConfiguration oAuth2ClientConfiguration;
+
+    @Resource
+    private DinersMapper dinersMapper;
+    @Resource
+    private SendVerifyCodeService sendVerifyCodeService;
     /**
      * 登录
      *
@@ -78,4 +87,42 @@ public class DinersService {
         loginDinerInfo.setNickname(dinerInfo.getNickname());
         return ResultInfoUtil.buildSuccess(servletPath, loginDinerInfo);
     };
+
+    public ResultInfo register(DinersDTO dinersDTO, String servletPath) {
+        // 参数非空校验
+        String username = dinersDTO.getUsername();
+        AssertUtil.isNotEmpty(username, "请输入用户名");
+        String password = dinersDTO.getPassword();
+        AssertUtil.isNotEmpty(password, "请输入密码");
+        String phone = dinersDTO.getPhone();
+        AssertUtil.isNotEmpty(phone, "请输入手机号");
+        String verifyCode = dinersDTO.getVerifyCode();
+        AssertUtil.isNotEmpty(verifyCode, "请输入验证码");
+        // 获取验证码
+        String code = sendVerifyCodeService.getCodeByPhone(phone);
+        // 验证是否过期
+        AssertUtil.isNotEmpty(code, "验证码已过期，请重新发送");
+        // 验证码一致性校验
+        AssertUtil.isTrue(!dinersDTO.getVerifyCode().equals(code), "验证码不一致，请重新输入");
+        // 验证用户名是否已注册
+        Diners diners = dinersMapper.selectByUsername(username.trim());
+        AssertUtil.isTrue(diners != null, "用户名已存在，请重新输入");
+        // 注册
+        // 密码加密
+        dinersDTO.setPassword(DigestUtil.md5Hex(password.trim()));
+        dinersMapper.save(dinersDTO);
+        // 自动登录
+        return signIn(username.trim(), password.trim(), servletPath);
+
+    }
+
+    /**
+     * 校验手机号是否已注册
+     */
+    public void checkPhoneIsRegistered(String phone) {
+        AssertUtil.isNotEmpty(phone, "手机号不能为空");
+        Diners diners = dinersMapper.selectByPhone(phone);
+        AssertUtil.isTrue(diners == null, "该手机号未注册");
+        AssertUtil.isTrue(diners.getIsValid() == 0, "该用户已锁定，请先解锁");
+    }
 }
