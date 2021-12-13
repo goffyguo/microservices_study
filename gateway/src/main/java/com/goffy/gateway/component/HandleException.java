@@ -2,7 +2,7 @@ package com.goffy.gateway.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.model.domain.ResultInfo;
 import com.goffy.commons.utils.ResultInfoUtil;
 import org.springframework.core.io.buffer.DataBuffer;

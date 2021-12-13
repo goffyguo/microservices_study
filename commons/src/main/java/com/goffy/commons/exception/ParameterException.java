@@ -1,7 +1,7 @@
 package com.goffy.commons.exception;
 
 
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,6 @@
 package com.goffy.aouth.service;
 
-import com.goffy.aouth.mapper.DinersMapper;
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.model.domain.SignInIdentity;
 import com.goffy.commons.model.pojo.Diners;
 import com.goffy.commons.utils.AssertUtil;

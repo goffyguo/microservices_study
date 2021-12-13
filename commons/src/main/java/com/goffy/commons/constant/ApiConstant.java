@@ -1,4 +1,4 @@
-package com.goffy.commons;
+package com.goffy.commons.constant;
 
 /**
  * Created with IntelliJ IDEA.

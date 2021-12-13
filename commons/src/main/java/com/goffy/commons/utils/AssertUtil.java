@@ -1,7 +1,7 @@
 package com.goffy.commons.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.exception.ParameterException;
 
 /**

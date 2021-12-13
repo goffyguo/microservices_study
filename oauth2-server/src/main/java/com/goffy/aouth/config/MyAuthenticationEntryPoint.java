@@ -1,7 +1,7 @@
 package com.goffy.aouth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.model.domain.ResultInfo;
 import com.goffy.commons.utils.ResultInfoUtil;
 import org.apache.commons.lang3.StringUtils;

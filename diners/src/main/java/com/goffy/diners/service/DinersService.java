@@ -1,7 +1,7 @@
 package com.goffy.diners.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.goffy.commons.ApiConstant;
+import com.goffy.commons.constant.ApiConstant;
 import com.goffy.commons.model.domain.ResultInfo;
 import com.goffy.commons.utils.AssertUtil;
 import com.goffy.commons.utils.ResultInfoUtil;
@@ -17,7 +17,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import javax.xml.ws.spi.http.HttpHandler;
 import java.util.LinkedHashMap;
 
 /**
