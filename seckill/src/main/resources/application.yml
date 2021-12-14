@@ -1,0 +1,35 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: seckill
+  cloud:
+    nacos:
+      server-addr: 120.46.149.32:8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: guofei??
+    url: jdbc:mysql://120.46.149.32:3307/diners?serverTimezone=GMT%2B8
+  # Redis
+  redis:
+    port: 6380
+    host: 120.46.149.32
+    timeout: 3000
+    database: 1
+    password: guofei??
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mappers/*Mapper.xml
+
+
+service:
+  name:
+    ms-oauth-server: http://oauth2-server/
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+

@@ -13,6 +13,7 @@
         <module>diners</module>
         <module>commons</module>
         <module>oauth2-server</module>
+        <module>seckill</module>
     </modules>
 
     <parent>
