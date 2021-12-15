@@ -13,8 +13,8 @@ import lombok.Getter;
 public enum RedisKeyConstant {
 
     verify_code("verify_code:", "验证码"),
-    seckill_vouchers("seckill_vouchers:", "秒杀券的key")
-
+    seckill_vouchers("seckill_vouchers:", "秒杀券的key"),
+    lock_key("lock_key","下单的锁")
     ;
 
     private String key;

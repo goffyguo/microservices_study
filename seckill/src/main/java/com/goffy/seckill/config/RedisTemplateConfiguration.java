@@ -51,12 +51,12 @@ public class RedisTemplateConfiguration {
         return redisTemplate;
     }
 
-    /*@Bean
+    @Bean
     public DefaultRedisScript<Long> stockScript() {
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         //放在和application.yml 同层目录下
         redisScript.setLocation(new ClassPathResource("stock.lua"));
         redisScript.setResultType(Long.class);
         return redisScript;
-    }*/
+    }
 }
