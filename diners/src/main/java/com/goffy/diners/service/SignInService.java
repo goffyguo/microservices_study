@@ -1,18 +1,22 @@
 package com.goffy.diners.service;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.goffy.commons.exception.ParameterException;
 import com.goffy.commons.model.vo.SignInDinerInfo;
 import com.goffy.commons.utils.AssertUtil;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
-import org.springframework.data.redis.connection.ReactiveStringCommands;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,14 +32,69 @@ public class SignInService {
     @Resource
     private RedisTemplate redisTemplate;
 
+    public Long getSignCount(String access_token, String dateStr) {
+        // 获取登录用户信息
+        SignInDinerInfo signInDinerInfo = loadSignDinerInfo(access_token);
+        int dinerId = 1;
+        if (signInDinerInfo == null) {
+            dinerId = 1;
+        }
+        // 获取日期
+        Date date = getDate(dateStr);
+        // 构建 Key
+        String signKey = buildSignKey(dinerId, date);
+        // e.g. BITCOUNT user:sign:5:202011
+        return (Long) redisTemplate.execute(
+                (RedisCallback<Long>) con -> con.bitCount(signKey.getBytes())
+        );
+    }
+
+
     /**
-     * Bitmaps 叫位图，他不是Redis的基本数据类型，而是基于String数据类型的按位操作，高阶数据类型的一种。
-     * Bitmaps 最大支持数为2^32位，使用512M内存就可以存储多大42.9亿的字节信息（2^32=4294967196）。
-     * <p>
-     * 由一组bit组成，每个bit对应0和1，虽然内部还是采用String类型存储，
-     * 但是Redis提供了一些指令用于直接操作位图，可以把它看作是一个bit数组，数据的下标就是偏移量。
-     * 它的优点是内存开销小、效率高且操作简单，很适合用于签到这类场景。
+     * 获取用户签到情况（当月）
+     * @param access_token
+     * @param dateStr
+     * @return
      */
+    public Map<String, Boolean> getSignInfo(String access_token, String dateStr) {
+        // 获取登录用户信息
+        SignInDinerInfo signInDinerInfo = loadSignDinerInfo(access_token);
+        int dinerId = 1;
+        if (signInDinerInfo == null) {
+            dinerId = 1;
+        }
+        // 获取日期
+        Date date = getDate(dateStr);
+        // 构建 Key
+        String signKey = buildSignKey(dinerId, date);
+        // 构建一个自动排序的 Map
+        Map<String, Boolean> signInfo = new TreeMap<>();
+        // 获取某月的总天数（考虑闰年）
+        int dayOfMonth = DateUtil.lengthOfMonth(DateUtil.month(date) + 1,
+                DateUtil.isLeapYear(DateUtil.year(date)));
+        // bitfield user:sign:5:202011 u30 0
+        BitFieldSubCommands bitFieldSubCommands = BitFieldSubCommands.create()
+                .get(BitFieldSubCommands.BitFieldType.unsigned(dayOfMonth))
+                .valueAt(0);
+        List<Long> list = redisTemplate.opsForValue().bitField(signKey, bitFieldSubCommands);
+        if (list == null || list.isEmpty()) {
+            return signInfo;
+        }
+        long v = list.get(0) == null ? 0 : list.get(0);
+        // 从低位到高位进行遍历，为 0 表示未签到，为 1 表示已签到
+        for (int i = dayOfMonth; i > 0; i--) {
+            /*
+                签到：  yyyy-MM-01 true
+                未签到：yyyy-MM-01 false
+             */
+            LocalDateTime localDateTime = LocalDateTimeUtil.of(date).withDayOfMonth(i);
+            boolean flag = v >> 1 << 1 != v;
+            signInfo.put(DateUtil.format(localDateTime, "yyyy-MM-dd"), flag);
+            v >>= 1;
+        }
+        return signInfo;
+
+    }
 
     public int doSign(String accessToken, String dateStr) {
         // 获取登录用户信息
@@ -127,5 +186,7 @@ public class SignInService {
     private SignInDinerInfo loadSignDinerInfo(String accessToken) {
         return null;
     }
+
+
 
 }
