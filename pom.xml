@@ -15,6 +15,7 @@
         <module>oauth2-server</module>
         <module>seckill</module>
         <module>others</module>
+      <module>spring</module>
     </modules>
 
     <parent>
