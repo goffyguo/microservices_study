@@ -13,12 +13,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * 上下文统一管理调用器
  *
- * @author: GuoFei
+ * @author:
  * @date: 2022-04-23 09:56
  */
 @Component
@@ -28,12 +27,12 @@ public class StatisticsCommand implements ApplicationListener<ContextRefreshedEv
   private final ConcurrentHashMap<String, StatisticsCountServiceBasics> processorsMap = new ConcurrentHashMap<>();
 
   @Resource
-  private List<StatisticsCountServiceBasics> processors;
+  List<StatisticsCountServiceBasics> processors;
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     if (contextRefreshedEvent.getApplicationContext()
-        .getParent() instanceof AnnotationConfigApplicationContext) {
+        .getParent() ==null) {
       if (processors == null || processors.size() == 0) {
         return;
       }
@@ -63,9 +62,9 @@ public class StatisticsCommand implements ApplicationListener<ContextRefreshedEv
 
 
   public String statistics(StatisticsCountBO statisticsCountBO) {
-    final StatisticsCountServiceBasics processors = getProcessors(statisticsCountBO.getImplType());
+    StatisticsCountServiceBasics processors = this.getProcessors(statisticsCountBO.getImplType());
     if (processors == null) {
-      return "ImplType 参数有误，未找到对应统计";
+      return "error:ImplType 参数有误，未找到对应统计";
     }
     String beginTime = statisticsCountBO.getBeginTime();
     String endTime = statisticsCountBO.getEndTime();
@@ -96,11 +95,10 @@ public class StatisticsCommand implements ApplicationListener<ContextRefreshedEv
             .isEmpty()) {
           Date start = DateUtils.getMonthStartDayPre();
           Date end = DateUtils.getMonthEndDayPre();
-          result = processors.weekStatistics(start, end);
+          //result = processors.monthStatistics(start, end);
           break;
         }
-        result = processors.monthStatistics(DateUtils.stringConvertDate(beginTime, 0),
-            DateUtils.stringConvertDate(endTime, 0));
+        //result = processors.monthStatistics(DateUtils.stringConvertDate(beginTime, 0),DateUtils.stringConvertDate(endTime, 0));
         break;
       default:
         return "error: dateType只能是0（日）,1（周）,2（月）";

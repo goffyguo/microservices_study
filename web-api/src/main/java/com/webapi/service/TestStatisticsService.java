@@ -1,7 +1,10 @@
 package com.webapi.service;
 
+import com.webapi.StatisticsTypeEnum;
 import com.webapi.basic.StatisticsCountServiceBasics;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -9,7 +12,9 @@ import java.util.Date;
  * @date: 2022-04-23 10:45
  * 
  */
-public class TestStatistics implements StatisticsCountServiceBasics {
+@Service
+@Slf4j
+public class TestStatisticsService implements StatisticsCountServiceBasics {
 
   /**
    * 日统计
@@ -20,6 +25,7 @@ public class TestStatistics implements StatisticsCountServiceBasics {
    */
   @Override
   public boolean dayStatistics(String beginTime, String endTime) {
+    log.info("---dayStatistics---");
     return false;
   }
 
@@ -32,6 +38,7 @@ public class TestStatistics implements StatisticsCountServiceBasics {
    */
   @Override
   public boolean weekStatistics(Date beginTime, Date endTime) {
+    log.info("---weekStatistics---");
     return false;
   }
 
@@ -44,6 +51,7 @@ public class TestStatistics implements StatisticsCountServiceBasics {
    */
   @Override
   public boolean monthStatistics(Date beginTime, Date endTime) {
+    log.info("---monthStatistics---");
     return false;
   }
 
@@ -54,6 +62,7 @@ public class TestStatistics implements StatisticsCountServiceBasics {
    */
   @Override
   public String getImplType() {
-    return null;
+    log.info("---getImplType---");
+    return StatisticsTypeEnum.ACTIVE_SPREAD.getCode();
   }
 }
