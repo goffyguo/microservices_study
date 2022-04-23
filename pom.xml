@@ -16,6 +16,7 @@
         <module>seckill</module>
         <module>others</module>
       <module>spring</module>
+        <module>web-api</module>
     </modules>
 
     <parent>
